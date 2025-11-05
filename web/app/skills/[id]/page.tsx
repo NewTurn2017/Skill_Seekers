@@ -237,27 +237,22 @@ export default function SkillDetailPage() {
                   {skill.status === "processing" && skill.progress !== undefined && (
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-medium">스크래핑 진행 중</p>
+                        <p className="text-sm font-medium">AI 생성 진행 중</p>
                         <p className="text-sm text-gray-600">{skill.progress}%</p>
                       </div>
                       <Progress value={skill.progress} className="h-2" />
                     </div>
                   )}
 
-                  {/* 원본 URL */}
+                  {/* 생성 방법 */}
                   <div>
                     <p className="text-sm text-gray-500 mb-1">
                       <Link2 className="inline h-4 w-4 mr-1" />
-                      문서 사이트
+                      생성 방법
                     </p>
-                    <a
-                      href={skill.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
-                    >
+                    <p className="text-gray-700 font-medium">
                       {skill.sourceUrl}
-                    </a>
+                    </p>
                   </div>
 
                   {/* 태그 */}

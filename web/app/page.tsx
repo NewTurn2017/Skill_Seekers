@@ -21,15 +21,15 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
           <h2 className="text-5xl font-extrabold text-gray-900 mb-6">
-            문서 사이트를<br />
+            AI로 어떤 스킬이든<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-              Claude AI 스킬로
+              자동 생성하세요
             </span>
             <br />
-            자동 변환하세요
+            프롬프트 또는 파일 업로드만으로
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            복잡한 설정 없이 클릭 몇 번으로 어떤 문서 사이트든 Claude AI가 이해할 수 있는 스킬로 만들어드립니다.
+            복잡한 설정 없이 원하는 것을 설명하거나 문서를 업로드하면 Gemini AI가 Claude AI 스킬을 자동으로 생성해드립니다.
           </p>
           <div className="flex gap-4 justify-center">
             <a
@@ -57,29 +57,29 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">📝</span>
+                <span className="text-3xl">💬</span>
               </div>
-              <h4 className="text-xl font-semibold mb-2">1. URL 입력</h4>
+              <h4 className="text-xl font-semibold mb-2">1. 프롬프트 또는 파일</h4>
               <p className="text-gray-600">
-                변환하고 싶은 문서 사이트의 주소를 입력하세요
+                원하는 스킬을 설명하거나 문서 파일을 업로드하세요
               </p>
             </div>
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">⚡</span>
+                <span className="text-3xl">✨</span>
               </div>
-              <h4 className="text-xl font-semibold mb-2">2. 자동 변환</h4>
+              <h4 className="text-xl font-semibold mb-2">2. AI 자동 생성</h4>
               <p className="text-gray-600">
-                AI가 문서를 분석하고 최적화된 스킬을 생성합니다
+                Gemini AI가 내용을 분석하고 고품질 스킬을 생성합니다
               </p>
             </div>
             <div className="text-center p-6">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">✨</span>
+                <span className="text-3xl">📥</span>
               </div>
-              <h4 className="text-xl font-semibold mb-2">3. 바로 사용</h4>
+              <h4 className="text-xl font-semibold mb-2">3. 다운로드 & 사용</h4>
               <p className="text-gray-600">
-                생성된 스킬을 Claude AI에 업로드하고 사용하세요
+                생성된 스킬을 다운로드하고 Claude AI에서 바로 사용하세요
               </p>
             </div>
           </div>
