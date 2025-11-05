@@ -13,7 +13,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, Download, Eye, MoreHorizontal, Play } from "lucide-react";
+import { ArrowUpDown, Download, Eye, MoreHorizontal, ExternalLink } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -55,10 +56,13 @@ export const columns: ColumnDef<Doc<"skills">>[] = [
     cell: ({ row }) => {
       const skill = row.original;
       return (
-        <div>
-          <div className="font-semibold">{row.getValue("name")}</div>
+        <Link href={`/skills/${skill._id}`} className="hover:text-blue-600">
+          <div className="font-semibold flex items-center gap-2">
+            {row.getValue("name")}
+            <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100" />
+          </div>
           <div className="text-sm text-gray-500">{skill.description}</div>
-        </div>
+        </Link>
       );
     },
   },

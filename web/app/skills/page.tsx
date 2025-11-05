@@ -1,8 +1,10 @@
 "use client";
 
-import { useQuery, useMutation } from "convex/react";
+import { useState, useMemo } from "react";
+import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { SkillsDataTable } from "@/components/skills-data-table";
+import { SkillsSearch, SearchFilters } from "@/components/skills-search";
 import { Button } from "@/components/ui/button";
 import { Plus, BarChart3, Download, Eye } from "lucide-react";
 import Link from "next/link";
@@ -12,11 +14,83 @@ import { formatNumber } from "@/lib/utils";
  * 스킬 게시판 페이지
  */
 export default function SkillsPage() {
+  const [filters, setFilters] = useState<SearchFilters>({
+    searchTerm: "",
+    categories: [],
+    difficulties: [],
+    statuses: [],
+    sortBy: "created",
+    sortOrder: "desc",
+  });
+
   // Convex 쿼리
-  const skills = useQuery(api.skills.list);
+  const allSkills = useQuery(api.skills.list);
   const stats = useQuery(api.skills.getStats);
 
-  if (skills === undefined || stats === undefined) {
+  // 필터링 및 정렬된 스킬 목록
+  const skills = useMemo(() => {
+    if (!allSkills) return [];
+
+    let filtered = [...allSkills];
+
+    // 검색어 필터
+    if (filters.searchTerm) {
+      const term = filters.searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (skill) =>
+          skill.name.toLowerCase().includes(term) ||
+          skill.description.toLowerCase().includes(term)
+      );
+    }
+
+    // 카테고리 필터
+    if (filters.categories.length > 0) {
+      filtered = filtered.filter((skill) =>
+        filters.categories.includes(skill.category)
+      );
+    }
+
+    // 난이도 필터
+    if (filters.difficulties.length > 0) {
+      filtered = filtered.filter((skill) =>
+        filters.difficulties.includes(skill.difficulty)
+      );
+    }
+
+    // 상태 필터
+    if (filters.statuses.length > 0) {
+      filtered = filtered.filter((skill) =>
+        filters.statuses.includes(skill.status)
+      );
+    }
+
+    // 정렬
+    filtered.sort((a, b) => {
+      let comparison = 0;
+
+      switch (filters.sortBy) {
+        case "name":
+          comparison = a.name.localeCompare(b.name);
+          break;
+        case "downloads":
+          comparison = a.downloadCount - b.downloadCount;
+          break;
+        case "views":
+          comparison = a.viewCount - b.viewCount;
+          break;
+        case "created":
+        default:
+          comparison = a.createdAt - b.createdAt;
+          break;
+      }
+
+      return filters.sortOrder === "asc" ? comparison : -comparison;
+    });
+
+    return filtered;
+  }, [allSkills, filters]);
+
+  if (allSkills === undefined || stats === undefined) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -133,6 +207,14 @@ export default function SkillsPage() {
                 <span className="text-gray-500 ml-1">({count})</span>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* 검색 및 필터 */}
+        <div className="bg-white rounded-lg shadow p-6 mb-6">
+          <SkillsSearch onFilterChange={setFilters} />
+          <div className="mt-4 text-sm text-gray-600">
+            검색 결과: {skills.length}개의 스킬
           </div>
         </div>
 

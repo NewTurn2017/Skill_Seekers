@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,7 @@ import { ArrowLeft, Sparkles } from "lucide-react";
 export default function CreateSkillPage() {
   const router = useRouter();
   const createSkill = useMutation(api.skills.create);
+  const startScraping = useAction(api.scraping.startScraping);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -68,6 +69,7 @@ export default function CreateSkillPage() {
     setIsSubmitting(true);
 
     try {
+      // 스킬 생성
       const skillId = await createSkill({
         name: formData.name,
         description: formData.description,
@@ -79,8 +81,25 @@ export default function CreateSkillPage() {
         maxPages: formData.maxPages,
       });
 
-      // 성공 시 스킬 게시판으로 이동
-      router.push("/skills");
+      // 설정 JSON 생성
+      const configJson = JSON.stringify({
+        name: formData.name,
+        description: formData.description,
+        base_url: formData.sourceUrl,
+        max_pages: formData.maxPages,
+        category: formData.category,
+      });
+
+      // 스크래핑 작업 시작 (백그라운드)
+      startScraping({
+        skillId,
+        configJson,
+      }).catch((error) => {
+        console.error("스크래핑 시작 실패:", error);
+      });
+
+      // 스킬 상세 페이지로 이동 (진행상황 확인 가능)
+      router.push(`/skills/${skillId}`);
     } catch (error) {
       console.error("스킬 생성 실패:", error);
       alert("스킬 생성에 실패했습니다. 다시 시도해주세요.");
