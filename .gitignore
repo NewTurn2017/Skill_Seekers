@@ -55,3 +55,17 @@ htmlcov/
 
 # Build artifacts
 .build/
+
+# Node.js / Next.js
+node_modules/
+.next/
+.out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.env*.local
+
+# Next.js build output
+.vercel
+.turbo
